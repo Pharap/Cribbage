@@ -270,47 +270,29 @@ void PlayGameState::drawHandScores(StateMachine & machine) {
 
     this->drawSmallCard(49, SCORE_CARD_TOP, this->turnUp, false);
 
-    for (uint8_t x = 0; x < 4; x++) {
-          
-      switch (this->viewState) {
+	switch (this->viewState) {
+		case ViewState::DisplayScore_Other:
+		case ViewState::DisplayScore_Dealer:
+		case ViewState::DisplayScore_Crib:
+			for (uint8_t x = 0; x < 4; x++) {
+				bool condition = true;
+				switch (this->viewState)
+				{
+				case ViewState::DisplayScore_Dealer:
+				case ViewState::DisplayScore_Crib:
+					condition = (gameStats.playerDealer == WhichPlayer::Player1);
+					break;
+				case ViewState::DisplayScore_Other:
+					condition = (gameStats.playerDealer == WhichPlayer::Player2);
+					break;
+				default: break;
+				}
 
-        case ViewState::DisplayScore_Other:
-        case ViewState::DisplayScore_Dealer:
-          {
-            uint8_t card = 0;
-            if ((gameStats.playerDealer == WhichPlayer::Player1 && this->viewState == ViewState::DisplayScore_Other) ||
-                (gameStats.playerDealer == WhichPlayer::Player2 && this->viewState == ViewState::DisplayScore_Dealer)) {
-              card = player2.getOrigCard(x);
-            }
-            else {
-              card = player1.getOrigCard(x);
-            }
-          
-            this->drawSmallCard(68 + (x * 10), SCORE_CARD_TOP, card, x != 3);
-
-          }
-
-          break;
-
-        case ViewState::DisplayScore_Crib: 
-          {
-            uint8_t card = 0;
-            if (gameStats.playerDealer == WhichPlayer::Player1) {
-              card = player1.getCribCard(x);
-            }
-            else {
-              card = player2.getCribCard(x);
-            }
-            this->drawSmallCard(68 + (x * 10), SCORE_CARD_TOP, card, x != 3);
-          }
-
-          break;
-
-        default: break;
-
-      }
-
-    }
+				uint8_t card = (condition) ? player1.getCribCard(x) : player2.getCribCard(x);
+				this->drawSmallCard(68 + (x * 10), SCORE_CARD_TOP, card, x != 3);
+			}
+		default: break;
+	}
 
 
     // Render upper arrow if needed ..
