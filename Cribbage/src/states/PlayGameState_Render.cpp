@@ -108,7 +108,7 @@ void PlayGameState::render(StateMachine & machine) {
                      (this->viewState == ViewState::DisplayScore_Dealer && gameStats.playerDealer == WhichPlayer::Player2) ||
                      (this->viewState == ViewState::DisplayScore_Crib && gameStats.playerDealer == WhichPlayer::Player2);
 
-        drawDealer(machine, -1, 22, happy ? (gameStats.getNumberOfScores() != 0 ? DealerFace::Happy : DealerFace::Sad) : DealerFace::Sad, this->message);
+        drawDealer(machine, -1, 22, (happy && (gameStats.getNumberOfScores() != 0)) ? DealerFace::Happy : DealerFace::Sad, this->message);
         SpritesB::drawSelfMasked(43, 0, Images::Divider, 0);
 
 
