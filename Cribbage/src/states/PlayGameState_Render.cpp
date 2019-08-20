@@ -119,38 +119,35 @@ void PlayGameState::render(StateMachine & machine) {
 
           // Flash the appropriate player's score ..
 
-          switch (this->viewState) {
-
-            case ViewState::DisplayScore_Other:
-              if (gameStats.playerDealer == WhichPlayer::Player1) {
-                this->drawScores_TopLeft(machine, true, flashScore | (this->counter > 184));
-              }
-              else {
-                this->drawScores_TopLeft(machine, flashScore | (this->counter > 184), true);
-              }
-              break;
-
-            case ViewState::DisplayScore_Dealer:
-              if (gameStats.playerDealer == WhichPlayer::Player1) {
-                this->drawScores_TopLeft(machine, flashScore | (this->counter > 184), true);
-              }
-              else {
-                this->drawScores_TopLeft(machine, true, flashScore | (this->counter > 184));
-              }
-              break;
-
-            case ViewState::DisplayScore_Crib: 
-              if (gameStats.playerDealer == WhichPlayer::Player1) {
-                this->drawScores_TopLeft(machine, flashScore | (this->counter > 184), true);
-              }
-              else {
-                this->drawScores_TopLeft(machine, true, flashScore | (this->counter > 184));
-              }
-              break;
-
-            default: break;
-
-          }
+			const bool flash = (flashScore || (this->counter > 184));	
+			if(gameStats.playerDealer == WhichPlayer::Player1)
+			{
+				switch (this->viewState)
+				{
+					case ViewState::DisplayScore_Other:
+						this->drawScores_TopLeft(machine, true, flash);
+						break;
+					case ViewState::DisplayScore_Dealer:
+					case ViewState::DisplayScore_Crib:
+						this->drawScores_TopLeft(machine, flash, true);
+						break;
+					default: break;
+				}
+			}
+			else
+			{
+				switch (this->viewState)
+				{
+					case ViewState::DisplayScore_Other:
+						this->drawScores_TopLeft(machine, flash, true);
+						break;
+					case ViewState::DisplayScore_Dealer:
+					case ViewState::DisplayScore_Crib:
+						this->drawScores_TopLeft(machine, true, flash);
+						break;
+					default: break;
+				}
+			}
 
         }
 
