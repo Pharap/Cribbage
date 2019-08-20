@@ -61,6 +61,7 @@ class PlayGameState : public BaseState {
     void drawScores(StateMachine & machine);
     void drawPlayer_Upper(uint8_t oldPosition, uint8_t newPosition, bool flash);
     void drawPlayer_Lower(uint8_t oldPosition, uint8_t newPosition, bool flash);
+    void drawPlayer_Flash(const Player & player1, const Player & player2);
 
     void saveMessage(String message, uint8_t lines, DealerFace dealerFace, BubbleAlignment alignment);
     void saveMessage(String message, uint8_t lines, uint8_t width, DealerFace dealerFace, BubbleAlignment alignment);

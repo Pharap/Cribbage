@@ -90,10 +90,7 @@ void PlayGameState::render(StateMachine & machine) {
         SpritesB::drawSelfMasked(43, 0, Images::Divider, 0);
         SpritesB::drawSelfMasked(51, 7, Images::Board, 0);
 
-        bool playerFlash1 = (player1.getPrevScore() != player1.getScore()) && this->highlight;
-        bool playerFlash2 = (player2.getPrevScore() != player2.getScore()) && this->highlight;
-        this->drawPlayer_Upper(player2.getPrevScore(), this->player2Counter, playerFlash2);
-        this->drawPlayer_Lower(player1.getPrevScore(), this->player1Counter, playerFlash1);
+        this->drawPlayer_Flash(player1, player2);
         this->drawScores_TopLeft(machine, true, true);
 
       }
@@ -160,10 +157,7 @@ void PlayGameState::render(StateMachine & machine) {
           default:
 
             SpritesB::drawSelfMasked(51, 7, Images::Board, 0);
-            bool playerFlash1 = (player1.getPrevScore() != player1.getScore()) && this->highlight;
-            bool playerFlash2 = (player2.getPrevScore() != player2.getScore()) && this->highlight;
-            this->drawPlayer_Upper(player2.getPrevScore(), this->player2Counter, playerFlash2);
-            this->drawPlayer_Lower(player1.getPrevScore(), this->player1Counter, playerFlash1);
+            this->drawPlayer_Flash(player1, player2);
             break;
 
         }
@@ -687,3 +681,9 @@ void PlayGameState::drawPlayer_Lower(uint8_t oldPosition, uint8_t newPosition, b
 }
 
 
+void PlayGameState::drawPlayer_Flash(const Player & player1, const Player & player2) {
+	bool playerFlash1 = (player1.getPrevScore() != player1.getScore()) && this->highlight;
+	bool playerFlash2 = (player2.getPrevScore() != player2.getScore()) && this->highlight;
+	this->drawPlayer_Upper(player2.getPrevScore(), this->player2Counter, playerFlash2);
+	this->drawPlayer_Lower(player1.getPrevScore(), this->player1Counter, playerFlash1);
+}
