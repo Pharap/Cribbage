@@ -232,24 +232,19 @@ void PlayGameState::drawHandScores(StateMachine & machine) {
     case ViewState::DisplayScore_Other:
     case ViewState::DisplayScore_Dealer:
 
-      if ((gameStats.playerDealer == WhichPlayer::Player1 && this->viewState == ViewState::DisplayScore_Other) ||
-          (gameStats.playerDealer == WhichPlayer::Player2 && this->viewState == ViewState::DisplayScore_Dealer)) {
-        font3x5.print(F(" My Hand"));
-      }
-      else {
-        font3x5.print(F("Your Hand"));
-      }
+		{
+			const bool condition =
+				(gameStats.playerDealer == WhichPlayer::Player1 && this->viewState == ViewState::DisplayScore_Other) ||
+				(gameStats.playerDealer == WhichPlayer::Player2 && this->viewState == ViewState::DisplayScore_Dealer);
+
+			font3x5.print((condition) ? F(" My Hand") : F("Your Hand"));
+		}
 
       break;
 
     case ViewState::DisplayScore_Crib: 
 
-      if (gameStats.playerDealer == WhichPlayer::Player1) {
-        font3x5.print(F("Your Crib"));
-      }
-      else {
-        font3x5.print(F(" My Crib"));
-      }
+		font3x5.print((gameStats.playerDealer == WhichPlayer::Player1) ? F(" My Crib") : F("Your Crib"));
 
       break;
 
